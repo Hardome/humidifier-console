@@ -17,6 +17,16 @@
 Нужны рабочий Python 3.11+ (рекомендуется 3.12), Git, доступ к GitHub/PyPI
 и компьютер в одной сети с увлажнителем.
 
+Если Python ещё не установлен (команда выводит только `Python` или открывает
+Microsoft Store), установите его в обычном PowerShell:
+
+```powershell
+winget install --exact --id Python.Python.3.12 --source winget --scope user
+```
+
+`setup.ps1` ищет рабочий интерпретатор через Python Launcher, стандартные
+каталоги установки и PATH, пропуская заглушки Microsoft Store.
+
 ```powershell
 cd C:\Users\hardo\homework\humidifier-console
 powershell -ExecutionPolicy Bypass -File .\setup.ps1
@@ -28,6 +38,7 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1
 с поддержкой `genericmiot` и сохраняет фактические версии зависимостей
 в `requirements.resolved.txt`. После успешной установки этот файл можно добавить в Git.
 Активация venv не требуется.
+Переходите к `pair` и `check` только после сообщения `Ready`.
 
 ## Получение IP и токена
 
