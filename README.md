@@ -74,7 +74,30 @@ https://account.xiaomi.com; вместо почты также можно поп
 не умеет пройти эту проверку. Используйте QR-вход в отдельном
 [Xiaomi Cloud Tokens Extractor](https://github.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor):
 
-1. Скачайте `token_extractor.exe` из Releases указанного проекта и запустите локально.
+Готовый EXE не используем: пользователь сообщил о детектах 9/71 в VirusTotal.
+Это не устанавливает ни вредоносность, ни безопасность сборки. Python-исходники
+можно изучить отдельно; запуск из исходников сам по себе также не гарантирует безопасность.
+
+Подготовьте исходники и отдельное окружение (команды выполнять по очереди,
+продолжать только при успешном завершении предыдущей):
+
+```powershell
+git clone https://github.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor.git .tools/token-extractor
+git -C .tools/token-extractor switch --detach c4db715
+.\.venv\Scripts\python.exe -m venv .tools/extractor-venv
+.\.tools\extractor-venv\Scripts\python.exe -m pip install -r .tools/token-extractor/requirements.txt
+```
+
+Изучите `.tools/token-extractor/token_extractor.py`, затем запустите:
+
+```powershell
+.\.tools\extractor-venv\Scripts\python.exe .tools/token-extractor/token_extractor.py
+```
+
+Исходник закреплён на commit `c4db715` с QR-входом. `.tools/` исключена из нашего Git.
+Отдельное venv отделяет зависимости от диагностики, но не является песочницей.
+
+1. Запустите Python-скрипт командой выше.
 2. Выберите `q` (QR code). Отсканируйте QR и подтвердите вход; альтернативная
    ссылка для входа также выводится самим инструментом.
 3. Выберите сервер `ru` или оставьте пустым для поиска по всем серверам.
