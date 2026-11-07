@@ -16,6 +16,65 @@ CONFIG = ROOT / 'device.local.json'
 EXPECTED_MODEL = 'zhimi.humidifier.ca7'
 
 
+class PairingError(Exception):
+    """Contains only a locally constructed, safe diagnostic message."""
+
+
+def safe_login_event(response):
+    """Allowlist HTTP/API codes and challenge flags; never retain raw responses."""
+    event = {'http_status': response.status_code}
+    try:
+        data = json.loads(response.text.removeprefix('&&&START&&&'))
+    except (ValueError, TypeError):
+        return event
+    if not isinstance(data, dict):
+        return event
+    code = data.get('code')
+    if type(code) is int:
+        event['api_code'] = code
+    for key in ('notificationUrl', 'captchaUrl'):
+        if data.get(key):
+            event[key + '_present'] = True
+    return event
+
+
+def cloud_devices(username, password, locale):
+    from miio.cloud import CloudInterface
+    from micloud import MiCloud
+    from micloud.miutils import get_session
+
+    class ObservedCloud(CloudInterface):
+        def _login(self):
+            if self._micloud is not None:
+                return
+            client = MiCloud(username=self.username, password=self.password)
+            client.session = get_session()
+            events = []
+
+            def observe(response, **kwargs):
+                events.append(safe_login_event(response))
+
+            client.session.hooks['response'].append(observe)
+            try:
+                try:
+                    success = client.login()
+                except Exception:
+                    success = False
+                if not success:
+                    summary = json.dumps(events) if events else 'No HTTP response received (network/TLS/proxy or client error).'
+                    raise PairingError(
+                        'Xiaomi login failed before device lookup. Safe login responses: ' + summary +
+                        '\nIf a challenge flag is present, Xiaomi requires additional verification unsupported by this login flow.' +
+                        '\nOtherwise verify password login at https://account.xiaomi.com using the same account; numeric Xiaomi Account ID can also be used as the login.' +
+                        '\nChanging ru/de will not fix this login stage. Do not enable raw debug logging.'
+                    )
+                self._micloud = client
+            finally:
+                client.session.hooks['response'].remove(observe)
+
+    return ObservedCloud(username, password).get_devices(locale=locale)
+
+
 def validate_config(data):
     ip = str(ipaddress.IPv4Address(data['ip']))
     token = data['token'].strip()
@@ -41,7 +100,7 @@ def pair():
     locale = input('Region [de/ru/cn/sg/us/i2/all]: ').strip().lower()
     if locale not in CloudInterface.available_locales():
         raise ValueError('Unknown region; use the region configured in Mi Home')
-    devices = CloudInterface(username, password).get_devices(locale=locale)
+    devices = cloud_devices(username, password, locale)
     candidates = [d for d in devices.values() if not d.parent_id and 'humidifier' in d.model]
     if not candidates:
         raise ValueError('No humidifier found. Check account and Mi Home region')
@@ -149,6 +208,8 @@ def main():
         print(json.dumps(report['result'], indent=2))
         print(f'Report: {path}')
         return 0 if report['result']['passed'] else 2
+    except PairingError as exc:
+        print(str(exc), file=sys.stderr)
     except FileNotFoundError:
         print('Configuration missing. Run pair or configure first.', file=sys.stderr)
     except (ValueError, KeyError):

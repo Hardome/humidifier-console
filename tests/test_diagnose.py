@@ -2,7 +2,7 @@ import json
 from types import SimpleNamespace
 import unittest
 
-from diagnose import collect, validate_config
+from diagnose import collect, validate_config, safe_login_event
 
 CONFIG = {'ip': '192.168.1.5', 'token': 'a' * 32}
 
@@ -30,6 +30,19 @@ class GoodDevice(InfoDevice):
 
 
 class DiagnosticTests(unittest.TestCase):
+    def test_login_event_excludes_secrets_and_exposes_challenge(self):
+        response = SimpleNamespace(status_code=200, text='&&&START&&&' + json.dumps({
+            'code': 0, 'notificationUrl': 'https://example.com/?token=secret',
+            'ssecurity': 'secret', 'userId': 'private', 'description': 'secret',
+        }))
+        event = safe_login_event(response)
+        self.assertEqual(event, {'http_status': 200, 'api_code': 0, 'notificationUrl_present': True})
+        self.assertNotIn('secret', json.dumps(event))
+
+    def test_login_event_handles_non_json(self):
+        self.assertEqual(safe_login_event(SimpleNamespace(status_code=502, text='secret')),
+                         {'http_status': 502})
+
     def test_repeated_read_accepts_power_off_and_excludes_credentials(self):
         pauses = []
         result = collect(CONFIG, 3, 5, InfoDevice, GoodDevice, pauses.append)
