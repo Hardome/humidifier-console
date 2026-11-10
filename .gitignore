@@ -6,3 +6,27 @@ reports/
 .env
 *.log
 .tools/
+.tmp/
+.playwright-mcp/
+.pytest_cache/
+pytest-cache-files-*/
+.ruff_cache/
+.coverage
+htmlcov/
+node_modules/
+web/dist/
+web/playwright-report/
+web/test-results/
+*.tsbuildinfo
+.env.*
+!.env.example
+*.local.json
+!device.example.json
+backups/
+# contracts/dist and generated API models are intentionally tracked.
+
+.mypy_cache/
+
+/docs/tmp/
+!docs/reports/
+!docs/reports/**

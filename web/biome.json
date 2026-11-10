@@ -1,0 +1,158 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.6/schema.json",
+  "root": true,
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!src/generated", "!!dist", "!!node_modules"]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "useEditorconfig": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "error",
+        "noForEach": "error",
+        "useDateNow": "error",
+        "useMathMinMax": "off",
+        "noExtraBooleanCast": "error",
+        "noAdjacentSpacesInRegex": "error",
+        "noUselessCatch": "error",
+        "noUselessEscapeInRegex": "error",
+        "noArguments": "error",
+        "noStaticOnlyClass": "error",
+        "noUselessSwitchCase": "error",
+        "useFlatMap": "error",
+        "useIndexOf": "error",
+        "noUselessTypeConstraint": "error",
+        "noBannedTypes": "error"
+      },
+      "correctness": {
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "warn",
+        "noComponentHookFactories": "error",
+        "noDuplicateFieldDefinitionNames": "error",
+        "noUnusedLabels": "error",
+        "noUnusedImports": "error"
+      },
+      "nursery": {
+        "useReactCompiler": "error",
+        "useTailwindSortedClasses": {
+          "level": "error",
+          "fix": "safe"
+        }
+      },
+      "style": {
+        "noCommonJs": "error",
+        "noNamespace": "error",
+        "useExportType": "error",
+        "useFilenamingConvention": "error",
+        "useImportType": "error",
+        "useNodejsImportProtocol": "error",
+        "useImportsFirst": "error",
+        "useConsistentTestIt": "error",
+        "useArrayLiterals": "error"
+      },
+      "suspicious": {
+        "noDuplicateTestHooks": "error",
+        "noExplicitAny": "error",
+        "noFocusedTests": "error",
+        "noMisplacedAssertion": "error",
+        "noSkippedTests": "error",
+        "noTsIgnore": "error",
+        "useErrorMessage": "error",
+        "noConditionalExpect": "error",
+        "useExpect": "error",
+        "noCatchAssign": "error",
+        "noIrregularWhitespace": "error",
+        "noPrototypeBuiltins": "error",
+        "noUselessRegexBackrefs": "error",
+        "noUselessEscapeInString": "error",
+        "noDocumentCookie": "error",
+        "noDuplicateEnumValues": "error",
+        "noExtraNonNullAssertion": "error",
+        "useDefaultSwitchClauseLast": "error",
+        "noConfusingLabels": "error"
+      },
+      "performance": {
+        "useDomNodeTextContent": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ["react", "react-dom"],
+              ":BLANK_LINE:",
+              [
+                ":PACKAGE:",
+                ":PACKAGE_WITH_PROTOCOL:",
+                "!@assets/**",
+                "!@tests/**",
+                "!@pages/**",
+                "!@features/**",
+                "!@widgets/**",
+                "!@shared/**",
+                "!@entities/**",
+                "!@api/**",
+                "!@route-tree"
+              ],
+              ":BLANK_LINE:",
+              ["@route-tree", "@route-tree"],
+              ["@pages/**", "@pages"],
+              ["@widgets/**", "@widgets"],
+              ["@features/**", "@features"],
+              ["@entities/**", "@entities"],
+              ["@shared/**", "@shared"],
+              ["@assets/**", "@assets"],
+              ["@tests/**", "@tests"],
+              ":BLANK_LINE:",
+              ["@api/**", "@api"],
+              ":BLANK_LINE:",
+              ":PATH:"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "tailwind": {
+    "stylesheet": "./src/app/styles.css"
+  }
+}

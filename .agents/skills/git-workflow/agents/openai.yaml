@@ -1,0 +1,3 @@
+interface:
+  display_name: "Git: коммиты и PR"
+  short_description: "Краткие коммиты, push веток и создание PR"

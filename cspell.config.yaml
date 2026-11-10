@@ -1,0 +1,35 @@
+version: '0.2'
+language: en, en-US, ru, ru-RU
+import:
+  - ./web/node_modules/@cspell/dict-ru_ru/cspell-ext.json
+useGitignore: true
+ignorePaths:
+  - '**/node_modules/**'
+  - '**/dist/**'
+  - web/src/generated/**
+  - '**/pnpm-lock.yaml'
+words:
+  - humidifier
+  - smartmi
+  - zhimi
+  - miio
+  - kubb
+  - tanstack
+  - shadcn
+  - steiger
+  - codegen
+  - lefthook
+  - stylelint
+  - Filenaming
+  - Backrefs
+  - stylesheet
+  - Instantiator
+  - nonoctal
+  - chartjs
+  - venv
+  - automations
+  - unstub
+  - readback
+  - Автопросушка
+  - рендера
+  - segmentless

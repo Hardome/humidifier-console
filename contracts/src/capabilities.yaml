@@ -1,0 +1,144 @@
+/api/v1/capabilities:
+  get:
+    operationId: getCapabilities
+    summary: getCapabilities
+    tags:
+    - capabilities
+    security: []
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Capabilities
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+/api/v1/capabilities/verify:
+  post:
+    operationId: verifyCapability
+    summary: verifyCapability
+    tags:
+    - capabilities
+    security: []
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/VerificationResult
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/Verification
+/api/v1/capabilities/restore:
+  post:
+    operationId: restoreVerification
+    summary: Restore original setting after an interrupted verification
+    tags:
+    - capabilities
+    security: []
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/VerificationResult
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: ../openapi.yaml#/components/schemas/Error
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/RestoreInput

@@ -1,0 +1,89 @@
+[project]
+name = "humidifier-console"
+version = "1.0.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "sqlalchemy>=2.0,<2.1",
+  "psycopg[binary]>=3.2,<4",
+  "alembic>=1.15,<2",
+  "httpx>=0.28,<1",
+  "pydantic-settings>=2,<3",
+  "tzdata",
+  "python-miio",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8,<10",
+  "pytest-cov>=6,<8",
+  "datamodel-code-generator[black,isort]>=0.28,<1",
+  "ruff>=0.11,<1",
+  "mypy>=1,<2",
+  "pre-commit>=4,<5",
+  "pip-audit>=2,<3",
+  "httpx2>=2.16.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+python-miio = { git = "https://github.com/rytilahti/python-miio.git", rev = "9a00e0888ef85f8d8d84888cabd9e46d1b0a18df" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "api/tests"]
+pythonpath = ["."]
+addopts = "-p no:cacheprovider"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 110
+extend-exclude = ["api/app/generated", "api/migrations/versions", ".venv", ".tmp", "node_modules", "web", "contracts"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "C4", "PIE", "ASYNC", "S", "RUF", "C901"]
+
+allowed-confusables = ["\u0441"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.per-file-ignores]
+"**/test_*.py" = ["S101", "S105", "S106"]
+"**/conftest.py" = ["S608"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["api/app", "diagnose.py", "scripts", "tests", "api/tests"]
+exclude = ["api/app/generated"]
+strict = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["miio.*", "micloud.*"]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+branch = true
+source = ["api/app"]
+omit = ["api/app/generated/*"]
+
+[tool.coverage.report]
+show_missing = true
+
+[[tool.mypy.overrides]]
+module = ["api.app.generated.*"]
+ignore_errors = true
+
+# Third-party miio has incomplete annotations. Keep exceptions at its adapters.
+[[tool.mypy.overrides]]
+module = ["api.app.device", "diagnose"]
+disable_error_code = ["no-untyped-call", "attr-defined"]
+
+[[tool.mypy.overrides]]
+module = ["api.tests.*", "tests.*", "test_diagnose", "scripts.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+disallow_untyped_calls = false

@@ -1,0 +1,5 @@
+# Only used by db:up for host-based development. Production publishes no DB port.
+services:
+  postgres:
+    ports:
+      - '127.0.0.1:5432:5432'
