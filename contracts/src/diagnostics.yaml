@@ -1,0 +1,44 @@
+/api/v1/diagnostics:
+  get:
+    operationId: getDiagnostics
+    summary: getDiagnostics
+    tags:
+    - diagnostics
+    security: []
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Diagnostics'
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'

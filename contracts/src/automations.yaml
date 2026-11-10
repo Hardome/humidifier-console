@@ -1,0 +1,197 @@
+/api/v1/automations:
+  get:
+    operationId: listAutomations
+    summary: listAutomations
+    tags:
+    - automations
+    security: []
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Rules'
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+  post:
+    operationId: createAutomation
+    summary: createAutomation
+    tags:
+    - automations
+    security: []
+    responses:
+      '201':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/RuleItem'
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../openapi.yaml#/components/schemas/RuleInput'
+/api/v1/automations/{id}:
+  put:
+    operationId: updateAutomation
+    summary: updateAutomation
+    tags:
+    - automations
+    security: []
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/RuleItem'
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../openapi.yaml#/components/schemas/RuleInput'
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema: &id001
+        type: string
+  delete:
+    operationId: deleteAutomation
+    summary: deleteAutomation
+    tags:
+    - automations
+    security: []
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/VerificationResult'
+      '403':
+        description: Cross-origin request rejected
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '404':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '409':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '422':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+      '503':
+        description: Safe error
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Error'
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema: *id001

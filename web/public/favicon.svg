@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>Smartmi</title>
+  <rect width="32" height="32" rx="8" fill="#153c32"/>
+  <path d="M16 6s-8 9-8 14a8 8 0 0 0 16 0c0-5-8-14-8-14z" fill="#c1dfb7"/>
+  <path d="M12 21a4 4 0 0 0 4 4" stroke="#153c32" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,15 @@
+pre-commit:
+  commands:
+    python-and-files:
+      run: uv run --locked pre-commit run --hook-stage manual
+    lint-staged:
+      run: corepack pnpm exec lint-staged --max-arg-length 6000
+    fsd:
+      glob: 'web/src/**/*.{ts,tsx}'
+      run: corepack pnpm --dir web run lint:fsd
+pre-push:
+  commands:
+    contracts:
+      run: corepack pnpm --dir contracts run build
+    web:
+      run: corepack pnpm --dir web run typecheck && corepack pnpm --dir web run test

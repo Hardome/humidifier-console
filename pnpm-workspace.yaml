@@ -1,0 +1,12 @@
+packages:
+  - web
+  - contracts
+storeDir: .tools/pnpm-store
+strictDepBuilds: false
+# Линтеры пока требуют уязвимый minimatch 10; фикс GHSA-g3hv-75wg-m249 — в 11.0.1.
+# Проверить снятие override после обновления upstream, не позднее 2026-12-09.
+overrides:
+  minimatch@10.2.6: 11.0.1
+allowBuilds:
+  core-js: false
+  protobufjs: false

@@ -1,0 +1,10 @@
+{
+  "name": "@humidifier/contracts",
+  "private": true,
+  "scripts": {
+    "build": "redocly lint openapi.yaml && redocly bundle openapi.yaml -o dist/openapi.json"
+  },
+  "devDependencies": {
+    "@redocly/cli": "2.76.0"
+  }
+}
