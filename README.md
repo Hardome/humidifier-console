@@ -89,34 +89,28 @@ docker compose stop
 
 ## Разработка
 
-Python 3.12, Node.js 24, pnpm 11. Локальные зависимости и кэши восстанавливаются командой:
+Нужны Python 3.12, uv, Node.js 24 и pnpm 11.
 
 ```sh
-corepack pnpm bootstrap
+corepack pnpm bootstrap  # установить зависимости
+corepack pnpm db:up      # запустить PostgreSQL
+corepack pnpm dev        # запустить приложение
+corepack pnpm check      # выполнить проверки
 ```
 
-Основные команды: `corepack pnpm dev`, `corepack pnpm codegen`, `corepack pnpm check`, `corepack pnpm test:e2e`. Для E2E сначала выполните `corepack pnpm --dir web exec playwright install chromium`.
+Перед первым запуском API настройте БД через `DATABASE_URL` или переменные `PG*`
+и примените миграции Alembic. PostgreSQL доступен на `127.0.0.1:5432`;
+порт меняется в `compose.dev.yaml` и `PGPORT`.
 
-Для разработки на хосте `corepack pnpm db:up` публикует PostgreSQL на `127.0.0.1:5432`. Если порт занят, измените его в `compose.dev.yaml` и задайте соответствующий `PGPORT`. Перед запуском API примените Alembic с настроенными `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` или `DATABASE_URL`.
+Для E2E установите браузер: `corepack pnpm --dir web exec playwright install chromium`,
+затем выполните `corepack pnpm test:e2e`. Для тестов на PostgreSQL задайте
+`TEST_DATABASE_URL`; по умолчанию используется SQLite.
 
-На Windows Python проекта: `.venv/Scripts/python.exe`; на Linux: `.venv/bin/python`. Диагностика только чтением: `python diagnose.py check` этим интерпретатором. `TEST_DATABASE_URL` включает тесты на PostgreSQL; иначе тесты используют SQLite.
-
-Исходники: `api/`, `web/`, `contracts/`. Контракт собирается из YAML; `contracts/dist` и сгенерированные Python/TypeScript-модели входят в проект и не редактируются вручную. CI проверяет генерацию, миграции, тесты и сборку.
-
-
-## Участие в разработке
-
-Python-зависимости управляются через uv и `uv.lock`; установите uv перед
-`corepack pnpm bootstrap`. JavaScript-зависимости закреплены в `pnpm-lock.yaml`.
-Изменения контракта сопровождаются перегенерацией клиента и моделей.
-
-CI проверяет статический анализ, тесты, миграции PostgreSQL, воспроизводимость
-генерации и сборку. Результаты автоматических тестов не заменяют проверку
-физического прибора. [Разработка с AI](docs/guides/ai-development.md) описывает
-порядок работы и пример регрессионного исправления.
-
+Исходники: `api/`, `web/`, `contracts/`. После изменения YAML-контракта выполните
+`corepack pnpm codegen`; сгенерированные файлы вручную не меняйте.
+Автоматические проверки не заменяют тестирование реального прибора.
 
 ## Правила разработки
 
 [Карта документации](docs/README.md), [фронт](docs/rules/web-guidelines.md),
-[проверки и Git-хуки](docs/guides/checks.md).
+[проверки и Git-хуки](docs/guides/checks.md), [разработка с AI](docs/guides/ai-development.md).
